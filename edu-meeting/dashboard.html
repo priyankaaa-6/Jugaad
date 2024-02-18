@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.9.0/main.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/templatemo-edu-meeting.css">
+    <link rel="stylesheet" href="assets/css/owl.css">
+    <link rel="stylesheet" href="assets/css/lightbox.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.js"></script>
+
+</head>
+<body>
+    <div class="dashboard">
+        <div class="section" id="goal-setting">
+            <h2>Goal Setting</h2>
+            <form id="goal-form">
+                <label for="study-hours">Study Hours per Day:</label>
+                <input type="number" id="goalDuration" name="goalDuration" min="1" required>
+                <button type="submit">Set Goal</button>
+            </form>
+            <div id="goal-message"></div>
+        </div>
+        <div class="section" id="preferences">
+            <h2>Preferences</h2>
+            <label for="session-duration">Session Duration (minutes):</label>
+            <input type="number" id="session-duration" name="session-duration" min="1" required onchange="updateTimer()">
+        
+            <br>
+            <label for="short-break-duration"> Short Break Duration (minutes):</label>
+            <input type="number" id="short-break-duration" name="short-break-duration" min="1" required>
+            <br>
+            <label for="long-break-duration"> Long Break Duration (minutes):</label>
+            <input type="number" id="long-break-duration" name="long-break-duration" min="1" required>
+            <button onclick="savePreferences()">Save Preferences</button>
+            <div id="preferences-message"></div>
+        </div>
+        <div class="section" id="calendar">
+            <h2>Calendar</h2>
+            <div id="calendar-content">
+                <!-- Calendar content will be dynamically loaded here -->
+            </div>
+        </div>
+    </div>
+    <script src="assets/js/script.js"></script>
+    <div class="dashboard">
+        <div id="calendar-content"></div> <!-- Element where FullCalendar will be rendered -->
+        <!-- Include FullCalendar JavaScript and other JavaScript files -->
+    </div>
+    <!-- Include FullCalendar JavaScript and other JavaScript files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.9.0/main.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function calculateTotalHoursToday() {
+                const pomodoroSessions = getPomodoroSessions();
+                const today = new Date();
+                const todaySessions = pomodoroSessions.filter(session => isSameDay(session.start, today));
+                let totalHoursToday = 0;
+                todaySessions.forEach(session => {
+                    const sessionDuration = timer[session.mode];
+                    totalHoursToday += sessionDuration / 60; // Convert minutes to hours
+                });
+                return totalHoursToday.toFixed(2);
+            }
+
+            // Function to check if two dates are on the same day
+            function isSameDay(date1, date2) {
+                return date1.getFullYear() === date2.getFullYear() &&
+                    date1.getMonth() === date2.getMonth() &&
+                    date1.getDate() === date2.getDate();
+            }
+
+            // Function to get stored Pomodoro session data
+            function getPomodoroSessions() {
+                let storedSessions = localStorage.getItem('sessions');
+                if (storedSessions) {
+                    storedSessions = JSON.parse(storedSessions);
+                } else {
+                    storedSessions = [];
+                }
+                return storedSessions;
+            }
+
+            // Display total hours on the calendar
+            const totalHoursToday = calculateTotalHoursToday();
+            const todayDateStr = formatDate(new Date());
+            const todayCell = document.querySelector(`[data-date="${todayDateStr}"]`);
+            if (todayCell) {
+                const totalHoursElement = document.createElement('div');
+                totalHoursElement.classList.add('total-hours');
+                totalHoursElement.textContent = `Total Hours: ${totalHoursToday}`;
+                todayCell.appendChild(totalHoursElement);
+            }
+        });
+
+    </script>
+</body>
+</html>

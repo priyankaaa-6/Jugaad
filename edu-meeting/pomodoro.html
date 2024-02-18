@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Freshman Pomodoro Clock Demo</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+     <!-- Bootstrap core CSS -->
+     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+     <link rel="stylesheet" href="assets/css/fontawesome.css">
+
+  </head>
+  <body>
+    <header class="header-area header-sticky">
+      <div class="container">
+          <div class="row">
+              <div class="col-12">
+                  <nav class="main-nav">
+                      <!-- ***** Logo Start ***** -->
+                      <a href="index.html" class="logo">
+                          Edu Meeting
+                      </a>
+                      <!-- ***** Logo End ***** -->
+                      <!-- ***** Menu Start ***** -->
+                      <ul class="nav">
+                          <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
+                          <li><a href="dashboard.html">Dashboard</a></li>
+                      </ul>        
+                      <a class='menu-trigger'>
+                          <span>Menu</span>
+                      </a>
+                      <!-- ***** Menu End ***** -->
+                  </nav>
+              </div>
+          </div>
+      </div>
+  </header>
+    <main class="app">
+      <progress id="js-progress" value="0"></progress>
+      <div class="progress-bar"></div>
+      <div class="timer">
+        <div class="button-group mode-buttons" id="js-mode-buttons">
+          <button
+            data-mode="pomodoro"
+            class="button active mode-button"
+            id="js-pomodoro"
+          >
+            Pomodoro
+          </button>
+          <button
+            data-mode="shortBreak"
+            class="button mode-button"
+            id="js-short-break"
+          >
+            Short break
+          </button>
+          <button
+            data-mode="longBreak"
+            class="button mode-button"
+            id="js-long-break"
+          >
+            Long break
+          </button>
+        </div>
+        <div class="clock" id="js-clock">
+          <span id="js-minutes">25</span>
+          <span class="separator">:</span>
+          <span id="js-seconds">00</span>
+        </div>
+        <button class="main-button" data-action="start" id="js-btn">
+          Start
+        </button>
+      </div>
+    </main>
+    <div class="hidden">
+      <audio src="break.mp3" data-sound="shortBreak"></audio>
+      <audio src="break.mp3" data-sound="longBreak"></audio>
+    </div>
+    <script src="assets/js/main.js"></script>
+
+<script>
+    document.getElementById('goalForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const goalHours = document.getElementById('goalHours').value;
+        const goalSubjects = document.getElementById('goalSubjects').value;
+        const goalDuration = document.getElementById('goalDuration').value;
+        
+        // Pass the goal duration to the Pomodoro clock (assuming you have a function to start the clock)
+        startPomodoro(goalDuration);
+
+        console.log('Goals set - Hours per day:', goalHours, 'Subjects:', goalSubjects, 'Duration:', goalDuration);
+        window.location.href = 'dashboard.html'; // Redirect back to the dashboard
+    });
+
+    function startPomodoro(duration) {
+        // Implement your Pomodoro clock logic here
+        console.log('Starting Pomodoro clock for', duration, 'minutes');
+    }
+</script>
+  </body>
+</html>
